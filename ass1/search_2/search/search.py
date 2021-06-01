@@ -19,6 +19,9 @@ Pacman agents (in searchAgents.py).
 
 import util
 
+FAILURE = "FAILURE"
+CUT_OFF = "CUTOFF"
+
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -113,12 +116,44 @@ def depthFirstSearch(problem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    explored = set()
+    start = problem.getStartState()
+    frontier = util.Stack()
+    frontier.push((start, []))
+    while not frontier.isEmpty():
+        cur = frontier.pop()
+        if problem.isGoalState(cur[0]):
+            return cur[1]
+        suc = problem.expand(cur[0])
+        if cur[0] not in explored:
+            explored.add(cur[0])
+            for state,action,cost in suc:
+                if state in explored:
+                    continue
+                frontier.push((state, cur[1] + [action]))
+    return []
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    explored = set()
+    expanded = set()
+    start = problem.getStartState()
+    frontier = util.Queue()
+    frontier.push((start, []))
+    while not frontier.isEmpty():
+        cur = frontier.pop()
+        if problem.isGoalState(cur[0]):
+            return cur[1]
+        suc = problem.expand(cur[0])
+        if cur[0] not in explored:
+            explored.add(cur[0])
+            for state,action,cost in suc:
+                if state in explored or state in expanded:
+                    continue
+                frontier.push((state, cur[1] + [action]))
+                expanded.add(state)
+    return []
 
 def nullHeuristic(state, problem=None):
     """

@@ -136,22 +136,20 @@ def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     explored = set()
-    expanded = set()
     start = problem.getStartState()
     frontier = util.Queue()
-    frontier.push((start, []))
+    frontier.push((start, [], 0))
     while not frontier.isEmpty():
         cur = frontier.pop()
         if problem.isGoalState(cur[0]):
             return cur[1]
-        suc = problem.expand(cur[0])
         if cur[0] not in explored:
             explored.add(cur[0])
+            suc = problem.expand(cur[0])
             for state,action,cost in suc:
-                if state in explored or state in expanded:
+                if state in explored:
                     continue
-                frontier.push((state, cur[1] + [action]))
-                expanded.add(state)
+                frontier.push((state, cur[1] + [action], cost + cur[2]))
     return []
 
 def nullHeuristic(state, problem=None):

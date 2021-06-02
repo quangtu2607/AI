@@ -308,6 +308,7 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        self.initialState = (0,0,0,0)
 
     def getStartState(self):
         """
@@ -315,14 +316,17 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return (self.startingPosition, self.initialState)
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        for item in state[1]:
+            if item == 0:
+                return False
+        return True
 
     def expand(self, state):
         """
@@ -340,6 +344,9 @@ class CornersProblem(search.SearchProblem):
             # Add a child state to the child list if the action is legal
             # You should call getActions, getActionCost, and getNextState.
             "*** YOUR CODE HERE ***"
+            child = self.getNextState(state, action)
+            stepCost = self.getActionCost(state, action, child)
+            children.append((child, action, stepCost))
 
         self._expanded += 1 # DO NOT CHANGE
         return children
@@ -367,9 +374,11 @@ class CornersProblem(search.SearchProblem):
         dx, dy = Actions.directionToVector(action)
         nextx, nexty = int(x + dx), int(y + dy)
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        corn = list(state[1])
+        if (nextx,nexty) in self.corners:
+                    corn[self.corners.index((nextx,nexty))] = 1
         # you will need to replace the None part of the following tuple.
-        return ((nextx, nexty), None)
+        return ((nextx, nexty), tuple(corn))
 
     def getCostOfActionSequence(self, actions):
         """

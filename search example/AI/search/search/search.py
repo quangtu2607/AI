@@ -200,6 +200,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         if node not in explored:
             explored.append(node)
             for ele in suc:
+                print(heuristic(ele[0]) + problem.getCostOfActions(path + [ele[0]]))
                 frontier.push((ele[0], path + [ele[0]]), heuristic(ele[0]) + problem.getCostOfActions(path + [ele[0]]))
     return FAILURE
 

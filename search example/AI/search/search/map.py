@@ -172,7 +172,8 @@ class MapSearchProblem(search.SearchProblem):
 if __name__ == '__main__':    
     rMap = MapState(CITIES, 'Arad', 'Bucharest')
     problem = MapSearchProblem(rMap)            
-    path = search.astar(problem)
+    path = search.astar(problem, calHeurisitic)
+    # path = search.ucs(problem)
 
     if path == 'FAILURE' or path == 'CUTOFF':
         print('No solution')

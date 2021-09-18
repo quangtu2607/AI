@@ -9,24 +9,29 @@ class City:
         self.cost = cost
 
 COST_TABLE = [
-    ['Oradea', 'Sibiu', 151],
-    ['Oradea', 'Zerind', 71],
-    ['Zerind', 'Arad', 75],
+    ['Arad', 'Zerind', 75],
     ['Arad', 'Sibiu', 140],
     ['Arad', 'Timisoara', 118],
-    ['Timisoara', 'Lugoj', 111],
-    ['Mehadia', 'Lugoj', 70], 
+    ['Zerind', 'Oradea', 71],
+    ['Sibiu', 'Oradea', 151],
     ['Sibiu', 'Fagaras', 99],
     ['Sibiu', 'Rimnicu Vilcea', 80],
+    ['Timisoara', 'Lugoj', 111],
+    ['Fagaras', 'Bucharest', 211],
+    ['Rimnicu Vilcea', 'Craiova', 146],
     ['Rimnicu Vilcea', 'Pitesti', 97],
+    ['Lugoj', 'Mehadia', 70],
+    ['Bucharest', 'Giurgiu', 90],
     ['Bucharest', 'Pitesti', 101],
-    ['Bucharest', 'Fagaras', 211],
-    ['Mehadia', 'Drobeta', 75],
-    ['Drobeta', 'Craiova', 120],
-    ['Craiova', 'Pitesti', 138],
-    ['Craiova', 'Rimnicu Vilcea', 146],
-    ['Giurgiu', 'Bucharest', 90],
-    ['Urziceni', 'Bucharest',  85]
+    ['Bucharest', 'Urziceni',  85],
+    ['Craiova','Pitesti',138],
+    ['Craiova','Drobeta',120],
+    ['Mehadia','Drobeta',75],
+    ['Urziceni','Hirsova',98],
+    ['Urziceni','Vaslui',142],
+    ['Hirsova','Eforie',86],
+    ['Vaslui','Iasi',92],
+    ['Iasi','Neamt',87]
  ]  
 
 HEURISTIC_COST = [
@@ -35,35 +40,46 @@ HEURISTIC_COST = [
     ['Bucharest', 0],    
     ['Craiova', 160],
     ['Drobeta', 242],
+    ['Eforie',161],
     ['Fagaras', 176],
     ['Giurgiu', 77],
+    ['Hirsova',151],
+    ['Iasi',226],
     ['Lugoj', 244],
+    ['Mehadia', 241],
+    ['Neamt', 234],
     ['Oradea', 380],
     ['Pitesti', 100],
     ['Rimnicu Vilcea', 193],
     ['Sibiu', 253],
     ['Timisoara', 329],
     ['Urziceni', 80],
+    ['Vaslui',199],
     ['Zerind', 374]
 ]
 
 CITIES = [
     # {'name': , 'neighbor': }
-    {'name': 'Oradea', 'neighbor': ['Zerind', 'Sibiu']},
-    {'name': 'Zerind', 'neighbor': ['Oradea', 'Arad']},
-    {'name': 'Arad', 'neighbor': ['Zerind', 'Sibiu', 'Timisoara']},
-    {'name': 'Sibiu', 'neighbor': ['Oradea', 'Arad', 'Fagaras', 'Rimnicu Vilcea']},
-    {'name': 'Timisoara', 'neighbor': ['Arad', 'Lugoj']},
-    {'name': 'Lugoj', 'neighbor': ['Timisoara', 'Mehadia']},
-    {'name': 'Fagaras', 'neighbor': ['Sibiu', 'Bucharest']},
-    {'name': 'Rimnicu Vilcea', 'neighbor': ['Sibiu', 'Pitesti', 'Craiova']},
-    {'name': 'Pitesti', 'neighbor': ['Rimnicu Vilcea', 'Craiova', 'Bucharest']},
-    {'name': 'Bucharest', 'neighbor': ['Pitesti', 'Fagaras', 'Giurgiu', 'Urziceni']},    
-    {'name': 'Mehadia', 'neighbor': ['Lugoj', 'Drobeta']},
-    {'name': 'Drobeta', 'neighbor': ['Mehadia', 'Craiova']},
-    {'name': 'Craiova', 'neighbor': ['Drobeta', 'Rimnicu Vilcea', 'Pitesti']},
-    {'name': 'Giurgiu', 'neighbor': ['Bucharest']},
-    {'name': 'Urziceni', 'neighbor': ['Bucharest']},
+    {'name': 'Oradea', 'neighbor': ['Zerind', 'Sibiu']},#
+    {'name': 'Zerind', 'neighbor': ['Oradea', 'Arad']},#
+    {'name': 'Arad', 'neighbor': ['Zerind', 'Sibiu', 'Timisoara']},#
+    {'name': 'Sibiu', 'neighbor': ['Oradea', 'Arad', 'Fagaras', 'Rimnicu Vilcea']},#
+    {'name': 'Timisoara', 'neighbor': ['Arad', 'Lugoj']},#
+    {'name': 'Lugoj', 'neighbor': ['Timisoara', 'Mehadia']},#
+    {'name': 'Fagaras', 'neighbor': ['Sibiu', 'Bucharest']},#
+    {'name': 'Rimnicu Vilcea', 'neighbor': ['Sibiu', 'Pitesti', 'Craiova']},#
+    {'name': 'Pitesti', 'neighbor': ['Rimnicu Vilcea', 'Craiova', 'Bucharest']},#
+    {'name': 'Bucharest', 'neighbor': ['Pitesti', 'Fagaras', 'Giurgiu', 'Urziceni']},#    
+    {'name': 'Mehadia', 'neighbor': ['Lugoj', 'Drobeta']},#
+    {'name': 'Drobeta', 'neighbor': ['Mehadia', 'Craiova']},#
+    {'name': 'Craiova', 'neighbor': ['Drobeta', 'Rimnicu Vilcea', 'Pitesti']},#
+    {'name': 'Giurgiu', 'neighbor': ['Bucharest']},#
+    {'name': 'Urziceni', 'neighbor': ['Bucharest','Vaslui','Hirsova']},#
+    {'name':'Hirsova', 'neighbor': ['Eforie','Urziceni']},#
+    {'name':'Eforie', 'neighbor': ['Hirsova']},#
+    {'name':'Vaslui', 'neighbor': ['Urziceni','Iasi']},#
+    {'name':'Iasi', 'neighbor': ['Vaslui','Neamt']},#
+    {'name':'Neamt', 'neighbor': ['Vaslui']}
 ]
 
 def calHeurisitic(state):
@@ -170,9 +186,9 @@ class MapSearchProblem(search.SearchProblem):
         return sum
 
 if __name__ == '__main__':    
-    rMap = MapState(CITIES, 'Arad', 'Bucharest')
+    rMap = MapState(CITIES, 'Arad', 'Neamt')
     problem = MapSearchProblem(rMap)            
-    path = search.astar(problem, calHeurisitic)
+    path = search.greedyBestFirstSearch(problem, calHeurisitic)
     # path = search.ucs(problem)
 
     if path == 'FAILURE' or path == 'CUTOFF':
